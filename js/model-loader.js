@@ -30,14 +30,14 @@ export class ModelLoader {
       
       try {
         this.statusCallback({ state: 'checking_cache', progress: 10, message: 'Checking cache...' });
-        model = await tf.loadGraphModel(idbPath);
+        model = await tf.loadLayersModel(idbPath);
         this.statusCallback({ state: 'cached', progress: 100, message: 'Model loaded from cache ✓' });
       } catch (e) {
         this.statusCallback({ state: 'downloading', progress: 20, message: 'Downloading model...' });
         
-        // Simulating onProgress as tf.loadGraphModel native onProgress is sometimes unreliable
+        // Simulating onProgress as tf.loadLayersModel native onProgress is sometimes unreliable
         // In a real setup, we would pass {onProgress: (frac) => ...} 
-        model = await tf.loadGraphModel(modelUrl, {
+        model = await tf.loadLayersModel(modelUrl, {
           onProgress: (fraction) => {
             this.statusCallback({ 
               state: 'downloading', 

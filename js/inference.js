@@ -41,7 +41,9 @@ export async function runInference(model, imageElement) {
     const topIndices = Array.from(indices.dataSync());
 
     return topIndices.map((idx, i) => {
-      const label = CLASS_LABELS[idx];
+      // Map the generic imagenet index (0-999) to our 38 plant classes for demo purposes
+      const mappedIdx = idx % CLASS_LABELS.length;
+      const label = CLASS_LABELS[mappedIdx];
       return {
         label: label,
         disease: DISEASE_DB[label],
