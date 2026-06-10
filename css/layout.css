@@ -35,6 +35,10 @@ section {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  transform-style: preserve-3d;
+}
+.glass-panel > * {
+  transform: translateZ(30px);
 }
 
 .glass-card {
@@ -45,6 +49,10 @@ section {
   border-radius: var(--radius-md);
   padding: 2rem;
   transition: transform var(--transition), box-shadow var(--transition);
+  transform-style: preserve-3d;
+}
+.glass-card > * {
+  transform: translateZ(25px);
 }
 
 .hidden {

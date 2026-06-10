@@ -28,8 +28,8 @@
 }
 
 @keyframes card-rise {
-  0% { transform: translateY(40px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% { transform: translateY(40px) translateZ(-50px) rotateX(10deg); opacity: 0; }
+  100% { transform: translateY(0) translateZ(0) rotateX(0deg); opacity: 1; }
 }
 
 @keyframes bar-expand {
@@ -38,8 +38,8 @@
 }
 
 @keyframes float-up {
-  0% { transform: translateY(15px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% { transform: translateY(20px) translateZ(-30px); opacity: 0; }
+  100% { transform: translateY(0) translateZ(0); opacity: 1; }
 }
 
 @keyframes healthy-ripple {

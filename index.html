@@ -82,7 +82,7 @@
   <main id="main-content">
     
     <section id="hero" data-animate>
-      <div class="hero-content glass-panel">
+      <div class="hero-content glass-panel" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
         <h1 class="hero-title">Detect Plant Disease</h1>
         <p class="hero-subtitle">Instantly diagnose 38 crop diseases with high-precision AI, directly on your device.</p>
         
@@ -149,17 +149,17 @@
       <div class="container">
         <h2 class="section-title">How it Works</h2>
         <div class="how-grid">
-          <div class="step-card glass-card">
+          <div class="step-card glass-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.3">
             <div class="step-number">01</div>
             <h3>Capture</h3>
             <p>Take a clear, well-lit photo of the affected leaf against a contrasting background.</p>
           </div>
-          <div class="step-card glass-card">
+          <div class="step-card glass-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.3">
             <div class="step-number">02</div>
             <h3>Analyze</h3>
             <p>Our locally-running neural network processes the image in milliseconds securely on your device.</p>
           </div>
-          <div class="step-card glass-card">
+          <div class="step-card glass-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.3">
             <div class="step-number">03</div>
             <h3>Act</h3>
             <p>Receive an instant diagnosis along with actionable treatment and prevention strategies.</p>
@@ -208,7 +208,7 @@
 
     <section id="about" data-animate>
       <div class="container section-split">
-        <div class="about-left glass-card">
+        <div class="about-left glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
           <h2>Model Intelligence</h2>
           <p>Powered by a quantized MobileNetV3-Small architecture, fine-tuned specifically on the PlantVillage dataset for edge devices.</p>
           <ul class="fact-list">
@@ -219,7 +219,7 @@
           </ul>
         </div>
         
-        <div class="about-right glass-card">
+        <div class="about-right glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
           <h3>Confidence Benchmark</h3>
           <div class="benchmark-chart" id="benchmark-chart">
             <div class="bar-wrap"><div class="bar-label">Tomato</div><div class="bar-track"><div class="bar-fill" data-value="98"></div></div><div class="bar-val">98%</div></div>
@@ -287,6 +287,9 @@
 
   <!-- QRCode.js dependency -->
   <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+  <!-- Vanilla-Tilt.js for 3D interactions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
   <!-- Main Application Logic -->
   <script type="module" src="js/main.js"></script>

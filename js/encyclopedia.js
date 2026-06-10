@@ -142,6 +142,14 @@ export class Encyclopedia {
       });
 
       this.gridEl.appendChild(card);
+      if (window.VanillaTilt) {
+        VanillaTilt.init(card, {
+          max: 15,
+          speed: 400,
+          glare: true,
+          "max-glare": 0.3
+        });
+      }
       if (this.observer) this.observer.observe(card);
     });
   }

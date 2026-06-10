@@ -136,6 +136,15 @@ export class HistoryManager {
         // Trigger custom event so stats can update
         document.dispatchEvent(new CustomEvent('history-changed'));
       });
+      
+      if (window.VanillaTilt) {
+        VanillaTilt.init(card, {
+          max: 10,
+          speed: 400,
+          glare: true,
+          "max-glare": 0.2
+        });
+      }
     });
   }
 
