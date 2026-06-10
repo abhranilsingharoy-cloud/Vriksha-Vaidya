@@ -26,7 +26,7 @@ export class Navigation {
           const offsetTop = targetEl.getBoundingClientRect().top + window.scrollY - 80;
           window.scrollTo({
             top: offsetTop,
-            behavior: 'smooth'
+            behavior: 'auto'
           });
           
           // Close mobile menu if open

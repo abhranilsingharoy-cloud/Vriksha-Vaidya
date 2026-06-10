@@ -6,32 +6,54 @@
 .drop-zone {
   width: 100%;
   height: 360px;
-  background: rgba(10,26,14,0.4);
-  border: 2px dashed var(--glass-border);
+  background: linear-gradient(145deg, rgba(10,26,14,0.6), rgba(20,40,20,0.5));
+  border: 2px dashed rgba(57,255,110,0.5);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
-  transition: all var(--transition);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   margin: 2rem 0;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  cursor: pointer;
 }
-.drop-zone.drag-over {
+.drop-zone:hover, .drop-zone.drag-over {
   border-color: var(--biolum);
-  background: var(--biolum-dim);
-  transform: scale(1.02);
+  background: rgba(57,255,110,0.08);
+  box-shadow: inset 0 0 30px rgba(57,255,110,0.2), 0 10px 30px rgba(0,0,0,0.5);
+  transform: translateY(-4px);
 }
 
 .drop-content {
   pointer-events: none;
+  z-index: 2;
 }
+.drop-content p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.drop-content strong {
+  color: var(--biolum);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .upload-icon {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   margin: 0 auto 1rem;
-  opacity: 0.7;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 10px rgba(57,255,110,0.6));
+  animation: float-icon 3s ease-in-out infinite;
+}
+
+@keyframes float-icon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 
 #image-preview {
