@@ -1,0 +1,99 @@
+/* ── FILE: css/pricing.css ─────────────────────────── */
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.pricing-card {
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  padding: 3rem;
+  border: 1px solid rgba(57, 255, 110, 0.3);
+  box-shadow: inset 0 0 20px rgba(57, 255, 110, 0.05), 0 10px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(57, 255, 110, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-tier {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--biolum);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-price {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-price span {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.pricing-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem 0;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.pricing-features li svg {
+  width: 24px;
+  height: 24px;
+  color: var(--biolum);
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.pricing-btn {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+}
