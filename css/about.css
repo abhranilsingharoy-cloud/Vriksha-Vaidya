@@ -1,0 +1,43 @@
+/* ── FILE: css/about.css ─────────────────────────── */
+.about-left, .about-right {
+  flex: 1;
+}
+
+.fact-list {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.fact-list li {
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--biolum);
+}
+
+.benchmark-chart {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.benchmark-chart .bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.benchmark-chart .bar-label {
+  width: 80px;
+  flex-shrink: 0;
+  margin: 0;
+}
+.benchmark-chart .bar-track {
+  flex: 1;
+}
+.benchmark-chart .bar-val {
+  width: 40px;
+  text-align: right;
+  font-family: var(--font-mono);
+  color: var(--biolum);
+}

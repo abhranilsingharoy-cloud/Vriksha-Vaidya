@@ -1,0 +1,40 @@
+/* ── FILE: css/variables.css ─────────────────────────── */
+:root {
+  --void        : #050d07;
+  --canopy      : #0a1a0e;
+  --leaf-deep   : #0f2d15;
+  --leaf-mid    : #1a4d23;
+  --leaf-lite   : #2d7a3a;
+  --biolum      : #39ff6e;
+  --biolum-dim  : rgba(57,255,110,0.15);
+  --biolum-glow : rgba(57,255,110,0.35);
+  --gold-fruit  : #f5a623;
+  --danger-red  : #ff4444;
+  --amber-warn  : #ff8c00;
+  --glass-bg    : rgba(10,26,14,0.55);
+  --glass-border: rgba(57,255,110,0.18);
+  --glass-blur  : blur(16px) saturate(180%);
+  --text-primary: #e8f5e9;
+  --text-muted  : #7cb882;
+  --text-data   : #39ff6e;
+
+  --font-head   : 'Syne', sans-serif;
+  --font-body   : 'Inter', sans-serif;
+  --font-mono   : 'JetBrains Mono', monospace;
+
+  --radius-sm   : 8px;
+  --radius-md   : 16px;
+  --radius-lg   : 24px;
+  --radius-xl   : 32px;
+
+  --shadow-glow : 0 0 20px var(--biolum-dim);
+  --shadow-card : 0 8px 32px rgba(0,0,0,0.4);
+  --transition  : 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --spring      : 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  --z-bg        : -1;
+  --z-base      : 1;
+  --z-nav       : 100;
+  --z-modal     : 1000;
+  --z-toast     : 2000;
+}

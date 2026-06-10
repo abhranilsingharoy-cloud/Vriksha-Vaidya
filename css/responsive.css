@@ -1,0 +1,82 @@
+/* ── FILE: css/responsive.css ─────────────────────────── */
+@media (min-width: 768px) {
+  .section-split {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+  }
+  
+  .how-grid::before {
+    content: "";
+    position: absolute;
+    top: 50px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    border-top: 2px dashed var(--glass-border);
+    z-index: -1;
+  }
+  
+  .disease-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .disease-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  section {
+    padding: 4rem 0;
+  }
+  
+  .hero-content {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-cta-row {
+    flex-direction: column;
+  }
+  
+  .hero-stats {
+    flex-direction: column;
+  }
+  
+  .how-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .drawer-panel {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    height: 90vh;
+    transform: translateY(100%);
+    align-self: flex-end;
+  }
+  .drawer.is-open .drawer-panel {
+    transform: translateY(0);
+  }
+  
+  .history-card {
+    padding: 0;
+  }
+  .history-card-inner {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  body {
+    min-width: 320px;
+  }
+}

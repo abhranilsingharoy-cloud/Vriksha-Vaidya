@@ -1,0 +1,60 @@
+/* ── FILE: css/layout.css ─────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  padding: 6rem 0;
+  position: relative;
+  z-index: var(--z-base);
+}
+
+.section-split {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--z-bg);
+  pointer-events: none;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-card {
+  background: rgba(10,26,14,0.7);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(57,255,110,0.1);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.hidden {
+  display: none !important;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(30px);
+}
+[data-animate].animate-in {
+  animation: float-up 0.6s var(--spring) forwards;
+}

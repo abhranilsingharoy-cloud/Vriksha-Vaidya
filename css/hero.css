@@ -1,0 +1,60 @@
+/* ── FILE: css/hero.css ─────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 4rem 2rem;
+  margin: 0 auto;
+}
+
+.hero-title {
+  margin-bottom: 1.5rem;
+}
+.hero-title span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: hero-cascade 0.8s var(--spring) forwards;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  color: var(--text-primary);
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.hero-stats .stat-pill {
+  flex: 1;
+  max-width: 200px;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--biolum);
+  width: 32px;
+  height: 32px;
+  animation: bracket-pulse 2s infinite;
+}

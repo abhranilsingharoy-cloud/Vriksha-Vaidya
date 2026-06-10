@@ -1,0 +1,128 @@
+/* ── FILE: css/history.css ─────────────────────────── */
+.history-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+.stat-item .val {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--biolum);
+  line-height: 1.2;
+}
+
+.donut-chart {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.donut-svg {
+  transform: rotate(-90deg);
+}
+.donut-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.1);
+  stroke-width: 12;
+}
+.donut-healthy {
+  fill: none;
+  stroke: var(--biolum);
+  stroke-width: 12;
+  stroke-dasharray: 0 314;
+  transition: stroke-dasharray 1s ease-out;
+}
+.donut-diseased {
+  fill: none;
+  stroke: var(--danger-red);
+  stroke-width: 12;
+  stroke-dasharray: 0 314;
+  transition: stroke-dasharray 1s ease-out;
+}
+
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.date-group h3 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.history-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(10,26,14,0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+.history-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.history-info {
+  flex: 1;
+  min-width: 0;
+}
+.history-info h4 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.delete-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  background: var(--danger-red);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+}
+.history-card.swiped .delete-btn {
+  transform: translateX(0);
+}
+.history-card-inner {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  transition: transform 0.2s ease;
+}

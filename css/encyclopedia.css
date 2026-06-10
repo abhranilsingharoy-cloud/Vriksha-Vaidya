@@ -1,0 +1,133 @@
+/* ── FILE: css/encyclopedia.css ─────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-wrap {
+  flex: 1;
+  min-width: 250px;
+}
+#disease-search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+#disease-search:focus {
+  outline: none;
+  border-color: var(--biolum);
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.disease-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.disease-card {
+  cursor: pointer;
+}
+.disease-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-glow);
+  border-color: rgba(57,255,110,0.3);
+}
+
+.disease-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.disease-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Drawer */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  visibility: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+.drawer.is-open {
+  visibility: visible;
+}
+.drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5,13,7,0.6);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.drawer.is-open .drawer-backdrop {
+  opacity: 1;
+}
+.drawer-panel {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+}
+.drawer.is-open .drawer-panel {
+  transform: translateX(0);
+}
+.drawer-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+}
+.drawer-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 3rem 2rem 2rem;
+}
+
+.drawer-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.drawer-emoji {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+.qr-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #0a1a0e;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
