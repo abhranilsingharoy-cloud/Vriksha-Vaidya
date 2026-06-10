@@ -49,3 +49,13 @@
   animation: leaf-drift 3s ease-in-out infinite alternate;
   pointer-events: none;
 }
+
+.developer-credit {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
