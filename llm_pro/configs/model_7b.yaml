@@ -1,0 +1,18 @@
+# ── FILE: llm_pro/configs/model_7b.yaml ─────────────────────────────────
+d_model: 4096
+n_heads: 32
+n_kv_heads: 8
+n_layers: 32
+max_seq_len: 131072
+vocab_size: 65536
+rope_base: 500000
+rope_scaling: "dynamic"
+window_size: 4096
+moe_layers: [3, 7, 11, 15, 19, 23, 27, 31]
+n_experts: 8
+top_k_experts: 2
+tie_embeddings: true
+dtype: "bfloat16"
+use_flash_attn: true
+use_alibi: false
+soft_prompt_len: 0

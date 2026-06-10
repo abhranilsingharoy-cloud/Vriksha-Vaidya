@@ -1,0 +1,19 @@
+# ── FILE: llm_pro/configs/train_pretrain.yaml ─────────────────────────────────
+peak_lr: 3.0e-4
+warmup_steps: 2000
+total_steps: 500000
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.95
+eps: 1.0e-8
+grad_clip: 1.0
+batch_tokens: 4000000
+seq_len_schedule:
+  - [0.5, 4096]
+  - [0.9, 8192]
+  - [1.0, 32768]
+moe_aux_loss_coef: 0.01
+z_loss_coef: 0.001
+checkpoint_every: 1000
+keep_last_n: 3
+s3_bucket: "llm-pro-checkpoints"

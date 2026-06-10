@@ -1,0 +1,24 @@
+# ── FILE: llm_pro/docker/Dockerfile.train ─────────────────────────────────
+FROM nvcr.io/nvidia/pytorch:24.01-py3
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY . /app
+
+# Set environment variables for optimal DeepSpeed / NCCL performance
+ENV NCCL_DEBUG=INFO
+ENV TORCH_NCCL_ASYNC_ERROR_HANDLING=1
+
+# Default command
+CMD ["bash", "scripts/launch_pretrain.sh"]

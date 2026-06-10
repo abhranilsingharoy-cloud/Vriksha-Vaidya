@@ -1,0 +1,19 @@
+# ── FILE: llm_pro/docker/Dockerfile.serve ─────────────────────────────────
+FROM nvcr.io/nvidia/pytorch:24.01-py3
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir fastapi uvicorn prometheus_client
+
+# Copy source code
+COPY . /app
+
+# Expose API and Metrics ports
+EXPOSE 8000
+EXPOSE 8001
+
+# Run API Server
+CMD ["uvicorn", "serving.api_server:app", "--host", "0.0.0.0", "--port", "8000"]

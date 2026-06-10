@@ -1,0 +1,15 @@
+# ── FILE: llm_pro/configs/train_sft.yaml ─────────────────────────────────
+lr: 2.0e-5
+epochs: 3
+batch_size: 512
+loss_mask_user_tokens: true
+lora_rank: 128
+lora_alpha: 256
+lora_target_modules:
+  - "q_proj"
+  - "k_proj"
+  - "v_proj"
+  - "o_proj"
+  - "gate_proj"
+  - "up_proj"
+  - "down_proj"

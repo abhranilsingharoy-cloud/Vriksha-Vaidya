@@ -1,0 +1,8 @@
+# ── FILE: llm_pro/configs/inference.yaml ─────────────────────────────────
+quantization: "awq"  # "awq", "gptq", "fp8", or "none"
+max_batch_size: 256
+max_tokens_per_batch: 32768
+use_speculative: true
+draft_model_path: "checkpoints/draft_1b"
+kv_cache_dtype: "int8"
+port: 8000

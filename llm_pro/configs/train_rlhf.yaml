@@ -1,0 +1,8 @@
+# ── FILE: llm_pro/configs/train_rlhf.yaml ─────────────────────────────────
+method: "dpo"
+kl_coef: 0.04
+clip_range: 0.2
+ppo_epochs: 4
+rollout_batch: 512
+beta: 0.1
+reward_model_ensemble: 3
