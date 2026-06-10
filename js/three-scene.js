@@ -134,28 +134,27 @@ export class ThreeScene {
   }
 
   buildCrops() {
-    const stalkGeo = new THREE.CylinderGeometry(0.05, 0.05, 2, 8);
-    stalkGeo.translate(0, 1, 0);
-    
-    const leafGeo1 = new THREE.BoxGeometry(0.8, 0.05, 0.4);
-    leafGeo1.translate(0.4, 1.2, 0);
-    leafGeo1.rotateZ(0.2);
-    
-    const leafGeo2 = new THREE.BoxGeometry(0.8, 0.05, 0.4);
-    leafGeo2.translate(-0.4, 1.6, 0);
-    leafGeo2.rotateZ(-0.2);
-
-    // Merge geometries manually for basic Three.js r128 without extra imports
-    // In a real production setup, BufferGeometryUtils would be used
-    const material = new THREE.MeshStandardMaterial({ 
-      color: 0x2d7a3a,
-      roughness: 0.8 
+    // Build Trunks (Make them tall enough to stick into the undulating terrain)
+    const trunkGeo = new THREE.CylinderGeometry(0.08, 0.15, 3.5, 6);
+    trunkGeo.translate(0, 0, 0);
+    const trunkMat = new THREE.MeshStandardMaterial({ 
+      color: 0x3d2817,
+      roughness: 0.9 
     });
 
-    // Create a group and instance it
-    const dummy = new THREE.Object3D();
-    const instancedMesh = new THREE.InstancedMesh(stalkGeo, material, CONFIG.PLANT_COUNT);
+    // Build Canopy/Leaves
+    const leavesGeo = new THREE.DodecahedronGeometry(1.2, 0);
+    leavesGeo.translate(0, 1.8, 0);
+    const leavesMat = new THREE.MeshStandardMaterial({ 
+      color: 0x2d7a3a,
+      roughness: 0.8,
+      flatShading: true
+    });
+
+    const trunkMesh = new THREE.InstancedMesh(trunkGeo, trunkMat, CONFIG.PLANT_COUNT);
+    const leavesMesh = new THREE.InstancedMesh(leavesGeo, leavesMat, CONFIG.PLANT_COUNT);
     
+    const dummy = new THREE.Object3D();
     const offsetArray = new Float32Array(CONFIG.PLANT_COUNT);
 
     for (let i = 0; i < CONFIG.PLANT_COUNT; i++) {
@@ -164,17 +163,28 @@ export class ThreeScene {
         0,
         (Math.random() - 0.5) * 80
       );
-      dummy.scale.setScalar(0.7 + Math.random() * 0.6);
+      
+      const scale = 0.6 + Math.random() * 0.8;
+      dummy.scale.setScalar(scale);
       dummy.rotation.y = Math.random() * Math.PI;
       dummy.updateMatrix();
-      instancedMesh.setMatrixAt(i, dummy.matrix);
+      
+      trunkMesh.setMatrixAt(i, dummy.matrix);
+      
+      // Slight rotation variation for the canopy
+      dummy.rotation.y += Math.random();
+      dummy.updateMatrix();
+      leavesMesh.setMatrixAt(i, dummy.matrix);
+      
       offsetArray[i] = Math.random() * Math.PI * 2;
     }
 
-    instancedMesh.geometry.setAttribute('aOffset', new THREE.InstancedBufferAttribute(offsetArray, 1));
+    trunkMesh.geometry.setAttribute('aOffset', new THREE.InstancedBufferAttribute(offsetArray, 1));
+    leavesMesh.geometry.setAttribute('aOffset', new THREE.InstancedBufferAttribute(offsetArray, 1));
     
-    this.cropMesh = instancedMesh;
-    this.scene.add(this.cropMesh);
+    this.cropMesh = trunkMesh;
+    this.scene.add(trunkMesh);
+    this.scene.add(leavesMesh);
   }
 
   buildFruits() {
@@ -191,7 +201,7 @@ export class ThreeScene {
     for (let i = 0; i < CONFIG.FRUIT_COUNT; i++) {
       dummy.position.set(
         (Math.random() - 0.5) * 20,
-        1.5 + Math.random() * 0.5,
+        2.5 + Math.random() * 1.5,
         (Math.random() - 0.5) * 20
       );
       dummy.updateMatrix();
