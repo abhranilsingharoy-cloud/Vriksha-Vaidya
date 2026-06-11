@@ -40,21 +40,51 @@
   }
   
   .hero-content {
-    padding: 2rem 1rem;
+    padding: 1rem;
   }
   
   .hero-cta-row {
     flex-direction: column;
+    gap: 1rem;
   }
   
   .hero-stats {
     flex-direction: column;
+  }
+  .hero-stats .stat-pill {
+    max-width: 100%;
   }
   
   .how-grid {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+  
+  .scan-actions {
+    flex-direction: column;
+  }
+  
+  .drop-zone {
+    height: 250px;
+  }
+  
+  .pricing-card {
+    padding: 1.5rem;
+  }
+  
+  .pricing-price {
+    font-size: 3rem;
+  }
+  
+  .developer-credit {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    margin-top: 1.5rem;
+    text-align: center;
+    width: 100%;
+    display: block;
   }
   
   .drawer-panel {
