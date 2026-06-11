@@ -61,8 +61,8 @@ ${context}
     };
 
     // Raw fetch to bypass any npm SDK issues
-    // Using antigravity-preview-05-2026 to support the specific API key provided
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/antigravity-preview-05-2026:generateContent?key=${apiKey}`;
+    // Using gemini-1.5-flash which has a generous free tier
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
     const apiResponse = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
