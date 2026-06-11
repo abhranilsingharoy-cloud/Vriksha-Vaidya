@@ -21,7 +21,7 @@ export class ChatBot {
     // Compress the DISEASE_DB into a readable string for the LLM
     let context = "";
     Object.values(DISEASE_DB).forEach(d => {
-      context += `[${d.disease} (${d.crop})]: ${d.description}. Symptoms: ${d.symptoms}. Action: ${d.immediateAction}. Prevention: ${d.prevention.join(", ")}. `;
+      context += `[${d.disease} (${d.crop})]: ${d.description}. Symptoms: ${d.symptoms}. Action: ${d.immediateAction}. Prevention: ${d.prevention ? d.prevention.join(", ") : "None"}. `;
       if (d.chemical) context += `Chemical: ${d.chemical.ingredient}. `;
       if (d.organic) context += `Organic: ${d.organic.remedy}. `;
       context += "\n";
@@ -87,8 +87,8 @@ export class ChatBot {
       
       // Parse basic markdown to HTML (just bolding for now, can be expanded)
       const formattedText = data.reply
-        .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')
-        .replace(/\\n/g, '<br/>');
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br/>');
 
       this.appendMessage('ai', formattedText);
       this.history.push({ role: 'ai', text: data.reply });
@@ -102,7 +102,7 @@ export class ChatBot {
 
   appendMessage(role, text) {
     const msg = document.createElement('div');
-    msg.className = \`chat-bubble \${role}\`;
+    msg.className = `chat-bubble ${role}`;
     msg.innerHTML = text;
     
     // Insert before typing indicator
