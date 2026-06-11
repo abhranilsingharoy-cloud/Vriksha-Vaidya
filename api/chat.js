@@ -1,14 +1,8 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-
 module.exports = async function handler(req, res) {
-  // CORS Headers for local testing
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  // Allow CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -20,16 +14,13 @@ module.exports = async function handler(req, res) {
 
   try {
     const { message, context, history } = req.body;
-    
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
       return res.status(500).json({ 
-        error: 'GEMINI_API_KEY is not configured on the server. Please add it to your Vercel Environment Variables.' 
+        error: 'The GEMINI_API_KEY is missing in Vercel. Please add it in Vercel > Settings > Environment Variables, and REDEPLOY.' 
       });
     }
-
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    // Use gemini-1.5-flash for blazing fast inference
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const systemPrompt = `You are the Vriksha Vaidya AI Botanist, an expert agronomist AI embedded in a modern web application.
 Your goal is to answer the user's questions regarding plant diseases, prevention, and treatment.
@@ -45,40 +36,50 @@ ${context}
 ------------------------
 `;
 
-    // Construct history array for Gemini
-    const chatHistory = [
-      {
-        role: "user",
-        parts: [{ text: systemPrompt }],
-      },
-      {
-        role: "model",
-        parts: [{ text: "Understood. I am the Vriksha Vaidya AI Botanist. I will use the provided context to answer the user's questions accurately and professionally." }],
-      }
-    ];
-
-    // Append prior user history if any
+    // Map history to Gemini's expected REST format
+    const contents = [];
     if (history && Array.isArray(history)) {
       history.forEach(msg => {
-        chatHistory.push({
+        contents.push({
           role: msg.role === 'ai' ? 'model' : 'user',
           parts: [{ text: msg.text }]
         });
       });
     }
 
-    const chat = model.startChat({
-      history: chatHistory,
+    // Add current user message
+    contents.push({
+      role: 'user',
+      parts: [{ text: message }]
     });
 
-    const result = await chat.sendMessage(message);
-    const response = await result.response;
-    const text = response.text();
+    const payload = {
+      systemInstruction: {
+        parts: [{ text: systemPrompt }]
+      },
+      contents: contents
+    };
 
-    res.status(200).json({ reply: text });
+    // Raw fetch to bypass any npm SDK issues
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const apiResponse = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await apiResponse.json();
+
+    if (!apiResponse.ok) {
+      console.error("Gemini API Error:", data);
+      return res.status(500).json({ error: data.error?.message || 'Google Gemini API returned an error.' });
+    }
+
+    const replyText = data.candidates[0].content.parts[0].text;
+    res.status(200).json({ reply: replyText });
 
   } catch (error) {
-    console.error("Chat API Error:", error);
-    res.status(500).json({ error: "Failed to generate response. The server encountered an issue connecting to the AI." });
+    console.error("Vercel Serverless Error:", error);
+    res.status(500).json({ error: `Server Crash: ${error.message}` });
   }
 };

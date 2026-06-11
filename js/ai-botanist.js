@@ -1,7 +1,7 @@
-// ── FILE: js/chat-ui.js ─────────────────────────────
+// ── FILE: js/ai-botanist.js ─────────────────────────────
 import { DISEASE_DB } from './disease-db.js';
 
-export class ChatBot {
+export class AIBotanist {
   constructor() {
     this.container = document.getElementById('chatbot-container');
     this.toggleBtn = document.getElementById('chatbot-toggle');
@@ -13,12 +13,11 @@ export class ChatBot {
     this.isOpen = false;
     this.history = [];
     
-    // We'll prepare a compressed string of our database to act as RAG context.
+    // Compress the DISEASE_DB into a readable string for the LLM
     this.contextString = this.buildContextString();
   }
 
   buildContextString() {
-    // Compress the DISEASE_DB into a readable string for the LLM
     let context = "";
     Object.values(DISEASE_DB).forEach(d => {
       context += `[${d.disease} (${d.crop})]: ${d.description}. Symptoms: ${d.symptoms}. Action: ${d.immediateAction}. Prevention: ${d.prevention ? d.prevention.join(", ") : "None"}. `;
@@ -39,7 +38,6 @@ export class ChatBot {
       if (e.key === 'Enter') this.sendMessage();
     });
 
-    // Add initial greeting
     this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist. How can I help you protect your crops today?");
   }
 
@@ -47,12 +45,10 @@ export class ChatBot {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.container.classList.add('open');
-      // Set to X icon
       this.toggleBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
       setTimeout(() => this.inputEl.focus(), 300);
     } else {
       this.container.classList.remove('open');
-      // Set back to Chat icon
       this.toggleBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
     }
   }
@@ -64,7 +60,7 @@ export class ChatBot {
     this.inputEl.value = '';
     this.appendMessage('user', text);
     
-    // Copy history BEFORE pushing the current message so Gemini doesn't see two consecutive user messages
+    // Copy history BEFORE pushing the current message
     const historyToSend = this.history.slice(-6);
     this.history.push({ role: 'user', text });
 
@@ -81,28 +77,31 @@ export class ChatBot {
         })
       });
 
-      if (!response.ok) {
-        let errorMsg = 'Server returned an error';
-        try {
-          const errorData = await response.json();
-          if (errorData.error) errorMsg = errorData.error;
-        } catch(e) {}
-        throw new Error(errorMsg);
+      let responseData;
+      const isJson = response.headers.get('content-type')?.includes('application/json');
+      
+      if (isJson) {
+        responseData = await response.json();
+      } else {
+        const textData = await response.text();
+        throw new Error(`Vercel Server Error (Not JSON): ${textData.substring(0, 50)}...`);
       }
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.error || 'Unknown server error');
+      }
+
       this.showTyping(false);
       
-      // Parse basic markdown to HTML (just bolding for now, can be expanded)
-      const formattedText = data.reply
+      const formattedText = responseData.reply
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br/>');
 
       this.appendMessage('ai', formattedText);
-      this.history.push({ role: 'ai', text: data.reply });
+      this.history.push({ role: 'ai', text: responseData.reply });
 
     } catch (error) {
-      console.error(error);
+      console.error("Chat Error Details:", error);
       this.showTyping(false);
       this.appendMessage('ai', `⚠️ **Error:** ${error.message}`);
     }
@@ -113,10 +112,7 @@ export class ChatBot {
     msg.className = `chat-bubble ${role}`;
     msg.innerHTML = text;
     
-    // Insert before typing indicator
     this.messagesEl.insertBefore(msg, this.typingIndicator);
-    
-    // Auto scroll to bottom
     this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
   }
 

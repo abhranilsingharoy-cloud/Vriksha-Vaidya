@@ -15,12 +15,12 @@ import { Navigation } from './navigation.js';
 import { AnimationManager } from './animations.js';
 import { ShareManager } from './share.js';
 import { initSkipLink, announceToScreenReader } from './accessibility.js';
-import { ChatBot } from './chat-ui.js';
+import { AIBotanist } from './ai-botanist.js';
 
 async function init() {
   initSkipLink();
 
-  const chatBot = new ChatBot();
+  const chatBot = new AIBotanist();
   chatBot.init();
 
   const scene = new ThreeScene(document.getElementById('bg-canvas'));
