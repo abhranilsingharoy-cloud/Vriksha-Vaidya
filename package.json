@@ -1,0 +1,24 @@
+{
+  "name": "vriksha-vaidya",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">   <img src=\"assets/icons/leaf-logo.svg\" alt=\"Vriksha Vaidya Logo\" width=\"120\" />   <h1>Vriksha Vaidya</h1>   <p><strong>Advanced Offline AI for Plant Disease Detection</strong></p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhranilsingharoy-cloud/Vriksha-Vaidya.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abhranilsingharoy-cloud/Vriksha-Vaidya/issues"
+  },
+  "homepage": "https://github.com/abhranilsingharoy-cloud/Vriksha-Vaidya#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
+  }
+}

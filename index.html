@@ -48,6 +48,7 @@
   <link rel="stylesheet" href="css/encyclopedia.css">
   <link rel="stylesheet" href="css/history.css">
   <link rel="stylesheet" href="css/pricing.css">
+  <link rel="stylesheet" href="css/chatbot.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/responsive.css">
@@ -298,6 +299,41 @@
       <button id="drawer-close" class="btn-icon drawer-close-btn" aria-label="Close details">×</button>
       <div id="drawer-content" class="drawer-content-scroll">
         <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot Widget -->
+  <div id="chatbot-container" class="chatbot-container">
+    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Toggle AI Chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </button>
+    <div class="chatbot-panel glass-panel">
+      <div class="chatbot-header">
+        <img src="assets/icons/leaf-logo.svg" alt="AI">
+        <div>
+          <h4>Vriksha AI Botanist</h4>
+          <span class="status-indicator">Online</span>
+        </div>
+      </div>
+      <div class="chatbot-messages" id="chatbot-messages">
+        <!-- Messages injected here -->
+        <div class="typing-indicator" id="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+      <div class="chatbot-input">
+        <input type="text" id="chat-input" placeholder="Ask about diseases or treatments...">
+        <button id="chat-send" class="btn btn-primary" aria-label="Send message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
