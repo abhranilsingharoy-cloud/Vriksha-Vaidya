@@ -82,7 +82,12 @@ export class ChatBot {
       });
 
       if (!response.ok) {
-        throw new Error('Server returned an error');
+        let errorMsg = 'Server returned an error';
+        try {
+          const errorData = await response.json();
+          if (errorData.error) errorMsg = errorData.error;
+        } catch(e) {}
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
@@ -99,7 +104,7 @@ export class ChatBot {
     } catch (error) {
       console.error(error);
       this.showTyping(false);
-      this.appendMessage('ai', "I'm sorry, I'm having trouble connecting to my neural network right now. Are you sure you deployed the Vercel API with the `GEMINI_API_KEY` set?");
+      this.appendMessage('ai', `⚠️ **Error:** ${error.message}`);
     }
   }
 
