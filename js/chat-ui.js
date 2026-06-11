@@ -63,6 +63,9 @@ export class ChatBot {
 
     this.inputEl.value = '';
     this.appendMessage('user', text);
+    
+    // Copy history BEFORE pushing the current message so Gemini doesn't see two consecutive user messages
+    const historyToSend = this.history.slice(-6);
     this.history.push({ role: 'user', text });
 
     this.showTyping(true);
@@ -74,7 +77,7 @@ export class ChatBot {
         body: JSON.stringify({
           message: text,
           context: this.contextString,
-          history: this.history.slice(-6) // Send last 6 messages for context memory
+          history: historyToSend
         })
       });
 
