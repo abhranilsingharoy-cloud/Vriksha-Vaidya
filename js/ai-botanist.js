@@ -40,7 +40,7 @@ export class AIBotanist {
 
     const apiKey = localStorage.getItem('gemini_api_key');
     if (!apiKey) {
-      this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist.<br><br>⚠️ **Setup Required:** To activate me, please **paste your Google Gemini API Key** directly into this chat. (It starts with `AIza...`). It will be saved securely in your browser!");
+      this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist.<br><br>⚠️ **Setup Required:** To activate me, please **paste your Google Gemini API Key** directly into this chat. (It starts with `AIza...` or `AQ...`). It will be saved securely in your browser!");
     } else {
       this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist. How can I help you protect your crops today?");
     }
@@ -68,12 +68,12 @@ export class AIBotanist {
     // Client-side API Key Management
     let apiKey = localStorage.getItem('gemini_api_key');
     if (!apiKey) {
-      if (text.startsWith("AIza")) {
+      if (text.startsWith("AIza") || text.startsWith("AQ.")) {
         localStorage.setItem('gemini_api_key', text.trim());
         this.appendMessage('ai', "✅ **API Key saved securely in your browser!**<br><br>I am now fully activated. How can I help you with your crops today?");
         return;
       } else {
-        this.appendMessage('ai', "⚠️ Please paste your valid Gemini API Key (starts with `AIza...`) to continue.");
+        this.appendMessage('ai', "⚠️ Please paste your valid Gemini API Key (starts with `AIza...` or `AQ...`) to continue.");
         return;
       }
     }
@@ -123,7 +123,9 @@ ${this.contextString}
       };
 
       // Direct client-side fetch, bypassing Vercel completely
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      // Route to antigravity preview if using an internal AQ key
+      const modelName = apiKey.startsWith("AQ.") ? "antigravity-preview-05-2026" : "gemini-1.5-flash";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
