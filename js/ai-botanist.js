@@ -38,7 +38,12 @@ export class AIBotanist {
       if (e.key === 'Enter') this.sendMessage();
     });
 
-    this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist. How can I help you protect your crops today?");
+    const apiKey = localStorage.getItem('gemini_api_key');
+    if (!apiKey) {
+      this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist.<br><br>⚠️ **Setup Required:** To activate me, please **paste your Google Gemini API Key** directly into this chat. (It starts with `AIza...`). It will be saved securely in your browser!");
+    } else {
+      this.appendMessage('ai', "Hello! I am Vriksha Vaidya AI Botanist. How can I help you protect your crops today?");
+    }
   }
 
   toggleChat() {
@@ -59,7 +64,28 @@ export class AIBotanist {
 
     this.inputEl.value = '';
     this.appendMessage('user', text);
+
+    // Client-side API Key Management
+    let apiKey = localStorage.getItem('gemini_api_key');
+    if (!apiKey) {
+      if (text.startsWith("AIza")) {
+        localStorage.setItem('gemini_api_key', text.trim());
+        this.appendMessage('ai', "✅ **API Key saved securely in your browser!**<br><br>I am now fully activated. How can I help you with your crops today?");
+        return;
+      } else {
+        this.appendMessage('ai', "⚠️ Please paste your valid Gemini API Key (starts with `AIza...`) to continue.");
+        return;
+      }
+    }
     
+    // Clear key if user types 'reset key'
+    if (text.toLowerCase() === 'reset key') {
+      localStorage.removeItem('gemini_api_key');
+      this.history = [];
+      this.appendMessage('ai', "API Key cleared. Please paste a new API Key to continue.");
+      return;
+    }
+
     // Copy history BEFORE pushing the current message
     const historyToSend = this.history.slice(-6);
     this.history.push({ role: 'user', text });
@@ -67,38 +93,62 @@ export class AIBotanist {
     this.showTyping(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      // Build contents array for direct Gemini API call
+      const contents = [];
+      historyToSend.forEach(msg => {
+        contents.push({
+          role: msg.role === 'ai' ? 'model' : 'user',
+          parts: [{ text: msg.text }]
+        });
+      });
+      contents.push({ role: 'user', parts: [{ text }] });
+
+      const systemPrompt = `You are the Vriksha Vaidya AI Botanist, an expert agronomist AI embedded in a modern web application.
+Your goal is to answer the user's questions regarding plant diseases, prevention, and treatment.
+
+CRITICAL INSTRUCTIONS:
+1. You MUST use the provided CONTEXT DATABASE below to answer the user's question accurately.
+2. If the user's question is completely unrelated to agriculture, plants, or the app, politely decline to answer.
+3. Keep your answers relatively concise, professional, and directly actionable.
+4. Format your response beautifully using Markdown (bolding, bullet points).
+5. MULTI-LANGUAGE SUPPORT: You must detect the language the user is speaking (e.g. English, Hindi, Bengali, Tamil, etc.) and RESPOND ENTIRELY IN THAT SAME LANGUAGE.
+
+--- CONTEXT DATABASE ---
+${this.contextString}
+------------------------`;
+
+      const payload = {
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents: contents
+      };
+
+      // Direct client-side fetch, bypassing Vercel completely
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          context: this.contextString,
-          history: historyToSend
-        })
+        body: JSON.stringify(payload)
       });
 
-      let responseData;
-      const isJson = response.headers.get('content-type')?.includes('application/json');
-      
-      if (isJson) {
-        responseData = await response.json();
-      } else {
-        const textData = await response.text();
-        throw new Error(`Vercel Server Error (Not JSON): ${textData.substring(0, 50)}...`);
-      }
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(responseData.error || 'Unknown server error');
+        if (data.error?.code === 400 && data.error?.message?.includes('API key')) {
+          localStorage.removeItem('gemini_api_key');
+          throw new Error("Invalid API Key. I have removed it from memory. Please paste a valid key.");
+        }
+        throw new Error(data.error?.message || 'Unknown API error');
       }
 
       this.showTyping(false);
       
-      const formattedText = responseData.reply
+      const replyText = data.candidates[0].content.parts[0].text;
+      const formattedText = replyText
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br/>');
 
       this.appendMessage('ai', formattedText);
-      this.history.push({ role: 'ai', text: responseData.reply });
+      this.history.push({ role: 'ai', text: replyText });
 
     } catch (error) {
       console.error("Chat Error Details:", error);
