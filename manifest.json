@@ -1,0 +1,17 @@
+{
+  "name": "Vriksha Vaidya",
+  "short_name": "VrikshaVaidya",
+  "description": "AI-Powered Plant Disease Detection",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1914",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/assets/icons/leaf-logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

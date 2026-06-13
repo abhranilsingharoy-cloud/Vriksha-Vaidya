@@ -6,6 +6,7 @@
   <title>Vriksha Vaidya - Detect Plant Disease</title>
   
   <meta name="description" content="Vriksha Vaidya: Advanced plant disease detection using offline AI.">
+  <link rel="manifest" href="/manifest.json">
   <meta property="og:title" content="Vriksha Vaidya - Detect Plant Disease">
   <meta property="og:description" content="Detect 38 plant diseases instantly with an offline AI model in your browser.">
   <meta property="og:image" content="/assets/images/og-preview.jpg">
@@ -352,5 +353,14 @@
 
   <!-- Main Application Logic -->
   <script type="module" src="js/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
